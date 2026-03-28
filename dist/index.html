@@ -154,6 +154,20 @@
 	  }
 	}
 	</script>
+    <style>
+      /* Fix: date picker calendar appears behind the booking form.
+         .book-panel has z-index:20; picker needs to be higher.
+         We only override z-index — NOT position — to avoid breaking
+         the plugin's own positioning calculations or intercepting clicks. */
+      .date-picker-wrapper {
+        z-index: 99999 !important;
+      }
+      /* When hidden, ensure it captures no pointer events */
+      .date-picker-wrapper[style*="display: none"],
+      .date-picker-wrapper[style*="display:none"] {
+        pointer-events: none !important;
+      }
+    </style>
 </head>
 <body>
 	<header>
