@@ -294,24 +294,20 @@
         //      threshold:0
         //   });
 
-        // var monthNames = ["January", "February", "March", "April", "May", "June",
-        //   "July", "August", "September", "October", "November", "December"
-        // ];
-        var monthNames = ["Jan", "Feb", "March", "April", "May", "June",
-          "July", "Aug", "Sep", "Oct", "Nov", "Dec"
-        ];
-        var weekday = ["Sund","Mon","Tue","Wed","Thu","Fri","Sat"];
-        var d = new Date();
-        var month = monthNames[d.getMonth()];
-        var day = weekday[d.getDay()];
-        // var d = new Date();
-        d = day+', '+d.getDate() +' '+month+' '+ d.getFullYear();
-        $('#checkin,#checkinsuperior,#checkindeluxe,#checkinfamily').val(d);
-        $('#checkin-day').val(d);
-        $('#checkout-day').val(d);
-        $('#checkout-date').text('Check out: '+d);
-        $('#checkin-rsvp').text(d);
-        $('#checkout-rsvp').text(d);
+        var initDate = moment().format('ddd, D MMM YYYY');
+        var initNextDate = moment().add(1, 'days').format('ddd, D MMM YYYY');
+
+        $('#checkin,#checkinsuperior,#checkindeluxe,#checkinfamily').val(initDate);
+        $('#checkin-day').val(initDate);
+        $('#checkout-day').val(initNextDate);
+        $('#checkout-date').val(initNextDate);
+        $('#checkin-rsvp').text(initDate);
+        $('#checkout-rsvp').text(initNextDate);
+
+        $('#checkout-date').click(function(e) {
+            e.preventDefault();
+            $('#checkin').data('dateRangePicker').open();
+        });
 
         $('#checkin').keypress(function(e) {
 
@@ -328,15 +324,21 @@
               autoClose: true,
               singleDate : false,
               singleMonth: false,
-              format: 'ddd, D MMM Y',
+              format: 'ddd, D MMM YYYY',
               separator: '     to ',
               stickyMonths: true,
               getValue: function()
               {
-                return $(this).val();
+                if ($('#checkin').val() && $('#checkout-date').val())
+                  return $('#checkin').val() + '     to ' + $('#checkout-date').val();
+                else
+                  return '';
               },
-              
-              
+              setValue: function(s,s1,s2)
+              {
+                $('#checkin').val(s1);
+                $('#checkout-date').val(s2);
+              }
               
             }
         ).bind('datepicker-first-date-selected', function(event, obj)
@@ -349,38 +351,21 @@
             // }
           }).bind('datepicker-change',function(event,obj)
           {
-            // var monthNames = ["January", "February", "March", "April", "May", "June",
-            //   "July", "August", "September", "October", "November", "December"
-            // ];
-            var monthNames = ["Jan", "Feb", "March", "April", "May", "June",
-              "July", "August", "Sep", "Oct", "Nov", "Decr"
-            ];
-            var weekday = ["Sund","Mon","Tue","Wed","Thu","Fri","Sat"];
-            var dout = obj.date2;
-            var din = obj.date1;
+            var monthdin = din.getMonth();
+            var dayin = din.getDay();
+            dayin = moment(din).format('ddd, D MMM YYYY');
+
+            var month = dout.getMonth();
+            var day = dout.getDay();
+            dout = moment(dout).format('ddd, D MMM YYYY');
 
 
-            var monthdin = monthNames[din.getMonth()];
-            var dayin = weekday[din.getDay()];
-            dayin = dayin+', '+din.getDate() +' '+monthdin+' '+ din.getFullYear();
-
-            var month = monthNames[dout.getMonth()];
-            var day = weekday[dout.getDay()];
-            // var d = new Date();
-            dout = day+', '+dout.getDate() +' '+month+' '+ dout.getFullYear();
-
-
-            $('#checkout-date').text('Check out: '+dout);
             $('#checkout-date').val(dout);
-            $('input[name="checkin-date"]').val(dayin);
-            //console.log(dayin);
+            // $('input[name="checkin-date"]').val(dayin);
+            // console.log(dayin);
 
             //throw to modal
-            var month = monthNames[din.getMonth()];
-            var day = weekday[din.getDay()];
-            // var d = new Date();
-            din = day+', '+din.getDate() +' '+month+' '+ din.getFullYear();
-            $('#checkin-rsvp').text(din);
+            $('#checkin-rsvp').text(dayin);
             $('#checkout-rsvp').text(dout);
 
             $('#checkin-day').val(din);
@@ -471,7 +456,7 @@
               autoClose: true,
               singleDate : false,
               singleMonth: false,
-              format: 'ddd, D MMM Y',
+              format: 'ddd, D MMM YYYY',
               separator: '     to ',
               stickyMonths: true,
               getValue: function()
@@ -490,33 +475,12 @@
             // }
           }).bind('datepicker-change',function(event,obj)
           {
-            var monthNames = ["Jan", "Feb", "March", "April", "May", "June",
-              "July", "August", "Sep", "Oct", "Nov", "Decr"
-            ];
-            var weekday = ["Sund","Mon","Tue","Wed","Thu","Fri","Sat"];
-            var dout = obj.date2;
-            var din = obj.date1;
+            var dout = moment(obj.date2).format('ddd, D MMM YYYY');
+            var din = moment(obj.date1).format('ddd, D MMM YYYY');
 
-
-            var monthdin = monthNames[din.getMonth()];
-            var dayin = weekday[din.getDay()];
-            dayin = dayin+', '+din.getDate() +' '+monthdin+' '+ din.getFullYear();
-
-            var month = monthNames[dout.getMonth()];
-            var day = weekday[dout.getDay()];
-            // var d = new Date();
-            dout = day+', '+dout.getDate() +' '+month+' '+ dout.getFullYear();
-
-
-            $('#superior #checkout-date').text('Check out: '+dout);
-            $('input[name="checkin-date"]').val(dayin);
-            //console.log(dayin);
+            $('#superior #checkout-date').val(dout);
 
             //throw to modal
-            var month = monthNames[din.getMonth()];
-            var day = weekday[din.getDay()];
-            // var d = new Date();
-            din = day+', '+din.getDate() +' '+month+' '+ din.getFullYear();
             $('#checkin-rsvp').text(din);
             $('#checkout-rsvp').text(dout);
 
@@ -627,33 +591,12 @@
             // }
           }).bind('datepicker-change',function(event,obj)
           {
-            var monthNames = ["Jan", "Feb", "March", "April", "May", "June",
-              "July", "August", "Sep", "Oct", "Nov", "Decr"
-            ];
-            var weekday = ["Sund","Mon","Tue","Wed","Thu","Fri","Sat"];
-            var dout = obj.date2;
-            var din = obj.date1;
+            var dout = moment(obj.date2).format('ddd, D MMM YYYY');
+            var din = moment(obj.date1).format('ddd, D MMM YYYY');
 
-
-            var monthdin = monthNames[din.getMonth()];
-            var dayin = weekday[din.getDay()];
-            dayin = dayin+', '+din.getDate() +' '+monthdin+' '+ din.getFullYear();
-
-            var month = monthNames[dout.getMonth()];
-            var day = weekday[dout.getDay()];
-            // var d = new Date();
-            dout = day+', '+dout.getDate() +' '+month+' '+ dout.getFullYear();
-
-
-            $('#deluxe #checkout-date').text('Check out: '+dout);
-            $('input[name="checkin-date"]').val(dayin);
-            //console.log(dayin);
+            $('#deluxe #checkout-date').val(dout);
 
             //throw to modal
-            var month = monthNames[din.getMonth()];
-            var day = weekday[din.getDay()];
-            // var d = new Date();
-            din = day+', '+din.getDate() +' '+month+' '+ din.getFullYear();
             $('#checkin-rsvp').text(din);
             $('#checkout-rsvp').text(dout);
 
@@ -745,7 +688,7 @@
               autoClose: true,
               singleDate : false,
               singleMonth: false,
-              format: 'ddd, D MMM Y',
+              format: 'ddd, D MMM YYYY',
               separator: '     to ',
               stickyMonths: true,
               getValue: function()
@@ -764,33 +707,12 @@
             // }
           }).bind('datepicker-change',function(event,obj)
           {
-            var monthNames = ["Jan", "Feb", "March", "April", "May", "June",
-              "July", "August", "Sep", "Oct", "Nov", "Decr"
-            ];
-            var weekday = ["Sund","Mon","Tue","Wed","Thu","Fri","Sat"];
-            var dout = obj.date2;
-            var din = obj.date1;
+            var dout = moment(obj.date2).format('ddd, D MMM YYYY');
+            var din = moment(obj.date1).format('ddd, D MMM YYYY');
 
-
-            var monthdin = monthNames[din.getMonth()];
-            var dayin = weekday[din.getDay()];
-            dayin = dayin+', '+din.getDate() +' '+monthdin+' '+ din.getFullYear();
-
-            var month = monthNames[dout.getMonth()];
-            var day = weekday[dout.getDay()];
-            // var d = new Date();
-            dout = day+', '+dout.getDate() +' '+month+' '+ dout.getFullYear();
-
-
-            $('#family #checkout-date').text('Check out: '+dout);
-            $('input[name="checkin-date"]').val(dayin);
-            //console.log(dayin);
+            $('#family #checkout-date').val(dout);
 
             //throw to modal
-            var month = monthNames[din.getMonth()];
-            var day = weekday[din.getDay()];
-            // var d = new Date();
-            din = day+', '+din.getDate() +' '+month+' '+ din.getFullYear();
             $('#checkin-rsvp').text(din);
             $('#checkout-rsvp').text(dout);
 
