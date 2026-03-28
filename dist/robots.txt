@@ -1,7 +1,4 @@
 User-agent: *
 Allow: /
 
-# Prevent crawling of duplicate/raw asset files
-Disallow: /assets/
-
 Sitemap: https://cengkarengtransithotel.com/sitemap.xml
