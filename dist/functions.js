@@ -36,7 +36,7 @@
         $('.carousel-img-bg').css('width',winwidth);
 
         // start room carousel dynamically
-         $("#superiorCarousel,#deluxeCarousel,#familyCarousel").carousel({
+         $("#superiorCarousel,#deluxeCarousel,#familyCarousel,#superiorCarousel-mob,#deluxeCarousel-mob,#familyCarousel-mob").carousel({
              interval: 3000,
              pause: "hover"
          });
