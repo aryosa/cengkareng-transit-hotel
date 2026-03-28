@@ -1,0 +1,11 @@
+{
+  "name": "cengkareng-transit-hotel",
+  "private": true,
+  "version": "1.0.0",
+  "description": "100% clone of the live cengkarengtransithotel.com site",
+  "scripts": {
+    "dev": "npx serve dist",
+    "build": "echo 'No build required for pure static clone'",
+    "preview": "npx serve dist"
+  }
+}
