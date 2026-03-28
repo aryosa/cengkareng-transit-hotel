@@ -35,8 +35,11 @@
         //alert(winwidth);
         $('.carousel-img-bg').css('width',winwidth);
 
-        // pause room carousel
-         $("#superiorCarousel,#deluxeCarousel,#familyCarousel").carousel('pause');
+        // start room carousel dynamically
+         $("#superiorCarousel,#deluxeCarousel,#familyCarousel").carousel({
+             interval: 3000,
+             pause: "hover"
+         });
 
       //Back to Top
       if ($('#back-to-top').length) {
