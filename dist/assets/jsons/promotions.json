@@ -1,0 +1,42 @@
+[
+  {
+    "promo": [
+      {
+        "title": "Staycation Promo",
+        "whatsapp": "https://wa.me/6281283394432",
+        "subtitle": "Discount 25%",
+        "description": "Dapatkan penawaran terbaik tahun ini.",
+        "rules": [
+          "Syarat dan ketentuan berlaku"
+        ],
+        "subrules": [
+          "Promo tidak dapat digabungkan dengan promo lain"
+        ]
+      },
+      {
+        "title": "Early Bird",
+        "whatsapp": "https://wa.me/6281283394432",
+        "subtitle": "Discount 20%",
+        "description": "Booking lebih awal, dapatkan harga spesial.",
+        "rules": [
+          "Syarat dan ketentuan berlaku"
+        ],
+        "subrules": [
+          "Promo tidak dapat digabungkan dengan promo lain"
+        ]
+      },
+      {
+        "title": "Weekend Promo",
+        "whatsapp": "https://wa.me/6281283394432",
+        "subtitle": "Discount 15%",
+        "description": "Promo liburan akhir pekan.",
+        "rules": [
+          "Syarat dan ketentuan berlaku"
+        ],
+        "subrules": [
+          "Promo tidak dapat digabungkan dengan promo lain"
+        ]
+      }
+    ]
+  }
+]

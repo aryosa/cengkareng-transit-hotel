@@ -354,17 +354,12 @@
             // }
           }).bind('datepicker-change',function(event,obj)
           {
-            var monthdin = din.getMonth();
-            var dayin = din.getDay();
-            dayin = moment(din).format('ddd, D MMM YYYY');
-
-            var month = dout.getMonth();
-            var day = dout.getDay();
-            dout = moment(dout).format('ddd, D MMM YYYY');
+            var dout = moment(obj.date2).format('ddd, D MMM YYYY');
+            var din = moment(obj.date1).format('ddd, D MMM YYYY');
 
 
             $('#checkout-date').val(dout);
-            // $('input[name="checkin-date"]').val(dayin);
+            // $('input[name="checkin-date"]').val(din);
             // console.log(dayin);
 
             //throw to modal
@@ -1030,36 +1025,25 @@
                 // show that something is loading
                     $('#response').html("<b>Loading response...</b>");
 
-                    // Call ajax for pass data to other place
-                    $.ajax({
-                    type: 'POST',
-                    url: 'confirm.php',
-                    data: $(form).serialize() // getting filed value in serialize form
-                    })
-                    .done(function(data){ // if getting done then call.
+                    // Call WhatsApp redirect instead of confirm.php
+                    var formData = $(form).serializeArray();
+                    var msg = "Halo Cengkareng Transit Hotel, saya ingin reservasi:\n";
+                    $.each(formData, function(i, field) {
+                       msg += field.name + ": " + field.value + "\n";
+                    });
+                    var waUrl = "https://wa.me/6281283394432?text=" + encodeURIComponent(msg);
+                    window.open(waUrl, '_blank');
 
-                    // show the response
-                    if(data ==='fail'){
-                      data = 'Booking failed';
-                    }else{
-                      data = 'Booking sent';
-                    }
-                    $('#response').html(data);
+                    $('#response').html('Mengalihkan ke WhatsApp...');
                     $('.reserv-fields').fadeOut('fast');
                     $('.reserv-succeed').fadeIn('slow');
                     setTimeout(function() {
                         $('#confirmModal').modal('hide');
-                    },5000);
-                    
-
-                    })
-                    .fail(function() { // if fail then getting message
-
-                    // just in case posting your form failed
-                    //alert( "Booking failed." );
-                    $('#response').html('Booking failed...');
-
-                    });
+                        // reset form UI
+                        $('.reserv-fields').show();
+                        $('.reserv-succeed').hide();
+                        $('#response').html("");
+                    }, 3000);
 
                     // to prevent refreshing the whole page page
                     return false;
